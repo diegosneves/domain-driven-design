@@ -21,10 +21,10 @@ public class Cliente {
     }
 
     private void validarDados() {
-        if (this.nome.isBlank()) {
+        if (isNull(this.nome) || this.nome.isBlank()) {
             throw new ClienteException(INFORMAR_UM_NOME);
         }
-        if (this.id.isBlank()) {
+        if (isNull(this.id) || this.id.isBlank()) {
             throw new ClienteException(INFORMAR_UM_ID);
         }
     }
