@@ -1,5 +1,6 @@
 # Domain-Driven Design (DDD) 
 [![Linkedin badge](https://img.shields.io/badge/-Linkedin-blue?flat-square&logo=Linkedin&logoColor=white&link=https://www.linkedin.com/in/diego-neves-224208177/)](https://www.linkedin.com/in/diego-neves-224208177/)
+[![wakatime](https://wakatime.com/badge/user/018bea20-dbbc-48e2-b101-5415903acf5a/project/018cdb7e-7b9a-450a-bb76-ac938c307675.svg)](https://wakatime.com/@diegosneves)
 
 Domain-Driven Design (DDD) é uma metodologia aplicada no desenvolvimento de software que prima pela incorporação e centralização do conhecimento de domínio durante a construção de sistemas complexos. 
 Este conceito foi difundido principalmente por meio do livro de **Eric Evans**, ["Domain-Driven Design: Tackling Complexity in the Heart of Software"](https://www.amazon.com/Domain-Driven-Design-Tackling-Complexity-Software/dp/0321125215).
@@ -28,7 +29,6 @@ Vale ressaltar que este é somente um panorama superficial de DDD. A metodologia
 classDiagram
 direction BT
 class App {
-  + App() 
   + main(String[]) void
 }
 class Cliente {
@@ -81,8 +81,6 @@ class ManipuladorDeMensagensDeErros {
   +  ENDERECO_INVALIDO
   - String erro
   + mensagem(String) String
-  + values() ManipuladorDeMensagensDeErros[]
-  + valueOf(String) ManipuladorDeMensagensDeErros
 }
 class Pedido {
   + Pedido(String, String, List~ItemPedido~) 
