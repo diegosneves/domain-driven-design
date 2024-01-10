@@ -15,7 +15,7 @@ public class Produto {
     private String nome;
     private BigDecimal preco;
 
-    public Produto(String id, String nome, BigDecimal preco) {
+    public Produto(String id, String nome, BigDecimal preco) throws ProdutoException {
         this.id = id;
         this.nome = nome;
         this.preco = preco;

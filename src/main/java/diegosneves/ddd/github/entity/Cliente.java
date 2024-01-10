@@ -14,7 +14,7 @@ public class Cliente {
     private Endereco endereco;
     private Boolean ativo = Boolean.FALSE;
 
-    public Cliente(String id, String nome) {
+    public Cliente(String id, String nome) throws ClienteException {
         this.id = id;
         this.nome = nome;
         this.validarDados();

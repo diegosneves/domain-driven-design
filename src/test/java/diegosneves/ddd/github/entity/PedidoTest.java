@@ -28,8 +28,8 @@ class PedidoTest {
 
     @BeforeEach
     void setUp() {
-        this.itemPedidoI = new ItemPedido("P01", "Item I", BigDecimal.TEN);
-        this.itemPedidoII = new ItemPedido("P02", "Item II", BigDecimal.ONE);
+        this.itemPedidoI = new ItemPedido("P01", "Item I", BigDecimal.TEN, "PR01", 2);
+        this.itemPedidoII = new ItemPedido("P02", "Item II", BigDecimal.ONE, "PR02", 2);
 
         this.pedido = new Pedido("001", "C01", List.of(itemPedidoI, itemPedidoII));
     }
@@ -132,15 +132,15 @@ class PedidoTest {
 
     @Test
     void quandoCalcularCustoTotalForChamadoEntaoPrecoDosItensSeraoSomados() {
-        BigDecimal expected = BigDecimal.valueOf(11.0);
-        BigDecimal actual = pedido.calcularCustoTotal();
+        BigDecimal expected = BigDecimal.valueOf(22.0);
+        BigDecimal actual = this.pedido.calcularCustoTotal();
 
         assertEquals(expected, actual);
     }
 
     @Test
     void quandoToStringForChamadoEntaoOsCamposIdClienteIdAndItensDevemEstarContidosNaString(){
-        String actual = pedido.toString();
+        String actual = this.pedido.toString();
 
         assertTrue(actual.contains("001"));
         assertTrue(actual.contains("C01"));

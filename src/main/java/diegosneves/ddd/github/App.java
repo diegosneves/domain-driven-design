@@ -16,8 +16,8 @@ public class App {
         cliente.setEndereco(endereco);
         cliente.ativarCliente();
 
-        ItemPedido item1 = new ItemPedido("001", "Item 1", BigDecimal.valueOf(10.0));
-        ItemPedido item2 = new ItemPedido("002", "Item 2", BigDecimal.valueOf(15.0));
+        ItemPedido item1 = new ItemPedido("001", "Item 1", BigDecimal.valueOf(10.0), "PR01", 2);
+        ItemPedido item2 = new ItemPedido("002", "Item 2", BigDecimal.valueOf(15.0), "PR02", 2);
         Pedido pedido = new Pedido("P01", "005", List.of(item1, item2));
         System.out.println(pedido);
 

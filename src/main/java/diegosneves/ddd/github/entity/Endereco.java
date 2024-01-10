@@ -15,7 +15,7 @@ public class Endereco {
     private String cep;
     private String cidade;
 
-    public Endereco(String rua, Integer numero, String cep, String cidade) {
+    public Endereco(String rua, Integer numero, String cep, String cidade) throws EnderecoException {
         this.rua = rua;
         this.numero = numero;
         this.cep = cep;

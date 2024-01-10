@@ -18,7 +18,7 @@ public class Pedido {
     private List<ItemPedido> itens;
     private BigDecimal total;
 
-    public Pedido(String id, String clienteId, List<ItemPedido> itens) {
+    public Pedido(String id, String clienteId, List<ItemPedido> itens) throws PedidoException {
         this.id = id;
         this.clienteId = clienteId;
         this.itens = itens;
