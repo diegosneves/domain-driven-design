@@ -15,15 +15,15 @@ public class ItemPedido {
     }
 
     public BigDecimal getPreco() {
-        return preco;
+        return this.preco;
     }
 
     @Override
     public String toString() {
         return "ItemPedido{" +
-                "id='" + id + '\'' +
-                ", name='" + name + '\'' +
-                ", preco=" + preco +
+                "id='" + this.id + '\'' +
+                ", name='" + this.name + '\'' +
+                ", preco=" + this.preco +
                 '}';
     }
 }

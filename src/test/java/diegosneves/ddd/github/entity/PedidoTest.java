@@ -1,6 +1,5 @@
 package diegosneves.ddd.github.entity;
 
-import diegosneves.ddd.github.exceptions.ManipuladorDeMensagensDeErros;
 import diegosneves.ddd.github.exceptions.PedidoException;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
