@@ -14,6 +14,10 @@ public class ItemPedido {
         this.preco = preco;
     }
 
+    public BigDecimal getPreco() {
+        return preco;
+    }
+
     @Override
     public String toString() {
         return "ItemPedido{" +

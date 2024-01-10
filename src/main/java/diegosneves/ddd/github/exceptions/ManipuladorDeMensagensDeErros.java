@@ -3,6 +3,7 @@ package diegosneves.ddd.github.exceptions;
 public enum ManipuladorDeMensagensDeErros {
 
     CLIENTE_INVALIDO("Não conseguimos criar o cliente: [ %s ]"),
+    PEDIDO_INVALIDO("Não conseguimos criar um pedido: [ %s ]"),
     ENDERECO_INVALIDO("Houve um problema ao criar o endereço: [ %s ]");
 
 

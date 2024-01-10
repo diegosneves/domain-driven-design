@@ -23,17 +23,17 @@ public class Endereco {
         this.validarDados();
     }
 
-    private void validarDados() {
-        if (this.rua.isBlank()) {
+    private void validarDados() throws EnderecoException {
+        if (isNull(this.rua) || this.rua.isBlank()) {
             throw new EnderecoException(RUA_NOME_AUSENTE);
         }
         if (isNull(this.numero)) {
             throw new EnderecoException(NUMERO_RESIDENCIA_OBRIGATORIO);
         }
-        if (this.cep.isBlank()) {
+        if (isNull(this.cep) || this.cep.isBlank()) {
             throw new EnderecoException(CEP_REQUIRED);
         }
-        if (this.cidade.isBlank()) {
+        if (isNull(this.cidade) || this.cidade.isBlank()) {
             throw new EnderecoException(CIDADE_NOME_AUSENTE);
         }
     }
