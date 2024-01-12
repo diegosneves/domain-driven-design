@@ -39,7 +39,7 @@ public class Pedido {
     }
 
     public BigDecimal calcularCustoTotal() {
-        this.total = BigDecimal.valueOf(this.itens.stream().mapToDouble(i -> i.getPreco().doubleValue()).sum());
+        this.total = this.itens.stream().map(ItemPedido::getPreco).reduce(BigDecimal::add).orElse(BigDecimal.ZERO);
         return this.total;
     }
 

@@ -13,6 +13,7 @@ public class Cliente {
     private String nome;
     private Endereco endereco;
     private Boolean ativo = Boolean.FALSE;
+    private Integer pontosDeRecompensa = 0;
 
     public Cliente(String id, String nome) throws ClienteException {
         this.id = id;
@@ -39,6 +40,18 @@ public class Cliente {
             throw new ClienteException(ADICIONAR_UM_ENDERECO);
         }
         this.ativo = Boolean.TRUE;
+    }
+
+    public String getId() {
+        return this.id;
+    }
+
+    public Integer getPontosDeRecompensa() {
+        return this.pontosDeRecompensa;
+    }
+
+    public void adicionarPontosDeRecompensa(Integer pontos) {
+        this.pontosDeRecompensa += pontos;
     }
 
     public void desativarCliente() {

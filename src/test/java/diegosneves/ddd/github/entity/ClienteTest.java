@@ -178,4 +178,20 @@ class ClienteTest {
 
     }
 
+    @Test
+    void quandoAdicionarPontosDeRecompensaEntaoPontosDeRecompensaSeraoAtualizados() throws Exception {
+        Integer pontosAntigos = this.cliente.getPontosDeRecompensa();
+        Integer pontosAdicionados = 10;
+
+        this.cliente.adicionarPontosDeRecompensa(pontosAdicionados);
+
+        assertEquals(0, pontosAntigos);
+        assertEquals(10, this.cliente.getPontosDeRecompensa());
+    }
+
+    @Test
+    void quandoGetIdEhChamadoParaUmClienteEspecificoEntaoOIdDesseClienteDeveSerRetornado() {
+        assertEquals("005", cliente.getId());
+    }
+
 }

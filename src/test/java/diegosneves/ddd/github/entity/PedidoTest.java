@@ -132,10 +132,10 @@ class PedidoTest {
 
     @Test
     void quandoCalcularCustoTotalForChamadoEntaoPrecoDosItensSeraoSomados() {
-        BigDecimal expected = BigDecimal.valueOf(22.0);
+        BigDecimal expected = BigDecimal.valueOf(22);
         BigDecimal actual = this.pedido.calcularCustoTotal();
 
-        assertEquals(expected, actual);
+        assertEquals(expected.doubleValue(), actual.doubleValue());
     }
 
     @Test
