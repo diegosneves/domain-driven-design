@@ -28,23 +28,27 @@ Vale ressaltar que este é somente um panorama superficial de DDD. A metodologia
 ```mermaid
 classDiagram
 direction BT
-class App {
-  + main(String[]) void
+class App { 
+  + App() 
 }
 class Cliente {
   + Cliente(String, String) 
-  - String nome
   - Endereco endereco
-  - Boolean ativo
-  - String INFORMAR_UM_NOME
-  - String INFORMAR_UM_ID
+  - Integer pontosDeRecompensa
   - String ADICIONAR_UM_ENDERECO
+  - Boolean ativo
+  - String nome
   - String id
+  - String INFORMAR_UM_ID
+  - String INFORMAR_UM_NOME
+  - validarDados() void
+  + adicionarPontosDeRecompensa(Integer) void
+  + desativarCliente() void
+  + getId() String
+  + getPontosDeRecompensa() Integer
+  + alterarNome(String) void
   + setEndereco(Endereco) void
   + ativarCliente() void
-  - validarDados() void
-  + desativarCliente() void
-  + alterarNome(String) void
 }
 class ClienteException {
   + ClienteException(String) 
@@ -52,14 +56,14 @@ class ClienteException {
 }
 class Endereco {
   + Endereco(String, Integer, String, String) 
+  - String CEP_REQUIRED
   - String NUMERO_RESIDENCIA_OBRIGATORIO
   - Integer numero
-  - String CEP_REQUIRED
-  - String cep
-  - String cidade
-  - String rua
   - String RUA_NOME_AUSENTE
   - String CIDADE_NOME_AUSENTE
+  - String cep
+  - String rua
+  - String cidade
   - validarDados() void
   + toString() String
 }
@@ -67,27 +71,81 @@ class EnderecoException {
   + EnderecoException(String) 
   + ManipuladorDeMensagensDeErros ERRO
 }
+class ItemException {
+  + ItemException(String) 
+  + ManipuladorDeMensagensDeErros ERRO
+}
 class ItemPedido {
-  + ItemPedido(String, String, BigDecimal) 
-  - String name
-  - String id
+  + ItemPedido(String, String, BigDecimal, String, Integer) 
+  - String PRODUCT_ID_FIELD_REQUIRED
+  - String QUANTITY_MUST_BE_GREATER_THAN_ZERO
   - BigDecimal preco
+  - String NAME_FIELD_REQUIRED
+  - String name
+  - String ID_FIELD_REQUIRED
+  - String id
+  - String PRODUCT_PRICE_MUST_BE_GREATER_THAN_ZERO
+  - String produtoId
+  - Integer quantidade
+  - validarDados() void
+  + getPreco() BigDecimal
   + toString() String
 }
 class ManipuladorDeMensagensDeErros {
 <<enumeration>>
   - ManipuladorDeMensagensDeErros(String) 
-  +  CLIENTE_INVALIDO
-  +  ENDERECO_INVALIDO
+  +  ITEM_PEDIDO_INVALIDO
   - String erro
+  +  PRODUTO_INVALIDO
+  +  ENDERECO_INVALIDO
+  +  CLIENTE_INVALIDO
+  +  PEDIDO_INVALIDO
   + mensagem(String) String
 }
 class Pedido {
   + Pedido(String, String, List~ItemPedido~) 
-  - String id
+  - String INVALID_CLIENT_CODE
   - String clienteId
+  - String ID_INVALIDO
+  - String INVALID_ITEM_LIST
+  - String id
+  - BigDecimal total
   - List~ItemPedido~ itens
   + toString() String
+  - validarPedido() void
+  + calcularCustoTotal() BigDecimal
+}
+class PedidoException {
+  + PedidoException(String) 
+  + ManipuladorDeMensagensDeErros ERRO
+}
+class PedidoService {
+  - PedidoService() 
+  - String CLIENTE_OBRIGATORIO
+  + fazerEncomenda(Cliente, List~ItemPedido~) Pedido
+  + calcularValorTotalDosPedidos(List~Pedido~) BigDecimal
+}
+class Produto {
+  + Produto(String, String, BigDecimal) 
+  - String ID_REQUIRED
+  - String PRODUCT_NAME_REQUIRED
+  - String id
+  - BigDecimal preco
+  - String PRODUCT_PRICE_MUST_BE_GREATER_THAN_ZERO
+  - String nome
+  + alterarNome(String) void
+  + alterarPreco(BigDecimal) void
+  + getPreco() BigDecimal
+  - validarDados() void
+}
+class ProdutoException {
+  + ProdutoException(String) 
+  + ManipuladorDeMensagensDeErros ERRO
+}
+class ProdutoService {
+  - ProdutoService() 
+  - double PERCENTAGE_BASE
+  + aplicarAumentoPercentualAoPrecoDosProdutos(List~Produto~, Double) void
 }
 
 App  ..>  Cliente 
@@ -99,8 +157,18 @@ Cliente "1" *--> "endereco 1" Endereco
 ClienteException "1" *--> "ERRO 1" ManipuladorDeMensagensDeErros 
 Endereco  ..>  EnderecoException 
 EnderecoException "1" *--> "ERRO 1" ManipuladorDeMensagensDeErros 
+ItemException "1" *--> "ERRO 1" ManipuladorDeMensagensDeErros 
+ItemPedido  ..>  ItemException 
 Pedido "1" *--> "itens *" ItemPedido 
-
+Pedido  ..>  PedidoException 
+PedidoException "1" *--> "ERRO 1" ManipuladorDeMensagensDeErros 
+PedidoService  ..>  Cliente 
+PedidoService  ..>  ItemPedido 
+PedidoService  ..>  Pedido 
+PedidoService  ..>  PedidoException 
+Produto  ..>  ProdutoException 
+ProdutoException "1" *--> "ERRO 1" ManipuladorDeMensagensDeErros 
+ProdutoService  ..>  Produto 
 ```
 
 ---
