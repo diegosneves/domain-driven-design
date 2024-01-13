@@ -1,0 +1,18 @@
+version: '3.9'
+
+services:
+  dddsql:
+    image: mysql:latest
+    restart: always
+    container_name: dddsql
+    ports:
+      - "3306:3306"
+    volumes:
+      - db-sql-ddd:/var/lib/mysql
+      - ./init.sql:/docker-entrypoint-initdb.d/init.sql:ro
+    environment:
+      - MYSQL_DATABASE=ddd
+      - MYSQL_ROOT_PASSWORD=Teste@123
+
+volumes:
+  db-sql-ddd:

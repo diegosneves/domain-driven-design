@@ -1,0 +1,21 @@
+<!DOCTYPE hibernate-configuration PUBLIC
+    "-//Hibernate/Hibernate Configuration DTD 3.0//EN"
+    "http://hibernate.sourceforge.net/hibernate-configuration-3.0.dtd">
+<hibernate-configuration>
+
+    <session-factory>
+        <property name="hibernate.dialect">org.hibernate.dialect.MySQL8Dialect</property>
+
+        <!-- Configuração para usar o tipo de armazenamento InnoDB -->
+        <property name="hibernate.connection.url">jdbc:mysql://localhost:3306/ddd?createDatabaseIfNotExist=true&amp;useUnicode=true&amp;characterEncoding=utf8</property>
+        <property name="hibernate.connection.driver_class">com.mysql.cj.jdbc.Driver</property>
+        <property name="hibernate.connection.username">root</property>
+        <property name="hibernate.connection.password">Teste@123</property>
+        <property name="hibernate.hbm2ddl.auto">update</property>
+
+        <!-- Auto-detection das classes de entidade -->
+        <mapping class="diegosneves.ddd.github.infrastructure.db.mysql.model.ProdutoEntity" /> <!-- classes que serao anotadas com @Entity -->
+
+
+    </session-factory>
+</hibernate-configuration>

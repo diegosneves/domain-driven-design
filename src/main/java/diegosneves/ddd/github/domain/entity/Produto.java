@@ -1,4 +1,4 @@
-package diegosneves.ddd.github.entity;
+package diegosneves.ddd.github.domain.entity;
 
 import diegosneves.ddd.github.exceptions.ProdutoException;
 
@@ -52,4 +52,11 @@ public class Produto {
         return this.preco;
     }
 
+    public String getId() {
+        return id;
+    }
+
+    public String getNome() {
+        return nome;
+    }
 }

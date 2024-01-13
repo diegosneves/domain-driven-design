@@ -1,6 +1,6 @@
-package diegosneves.ddd.github.service;
+package diegosneves.ddd.github.domain.service;
 
-import diegosneves.ddd.github.entity.Produto;
+import diegosneves.ddd.github.domain.entity.Produto;
 
 import java.math.BigDecimal;
 import java.util.List;

@@ -1,4 +1,4 @@
-package diegosneves.ddd.github.entity;
+package diegosneves.ddd.github.domain.entity;
 
 import diegosneves.ddd.github.exceptions.ItemException;
 

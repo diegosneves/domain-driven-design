@@ -1,9 +1,8 @@
 package diegosneves.ddd.github;
 
-import diegosneves.ddd.github.entity.Cliente;
-import diegosneves.ddd.github.entity.Endereco;
-import diegosneves.ddd.github.entity.ItemPedido;
-import diegosneves.ddd.github.entity.Pedido;
+import diegosneves.ddd.github.domain.entity.*;
+import diegosneves.ddd.github.domain.repository.ProdutoRepository;
+import diegosneves.ddd.github.repository.ProdutoEntityRepository;
 
 import java.math.BigDecimal;
 import java.util.List;
@@ -21,6 +20,9 @@ public class App {
         Pedido pedido = new Pedido("P01", "005", List.of(item1, item2));
         System.out.println(pedido);
 
+//        ProdutoRepository repository = new ProdutoEntityRepository();
+//        Produto produto =new Produto("PR02", "Produto II", BigDecimal.valueOf(200.0));
+//        repository.guardar(produto);
     }
 
 }

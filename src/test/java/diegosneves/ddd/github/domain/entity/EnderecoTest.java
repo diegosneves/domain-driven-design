@@ -1,10 +1,8 @@
-package diegosneves.ddd.github.entity;
+package diegosneves.ddd.github.domain.entity;
 
 import diegosneves.ddd.github.exceptions.EnderecoException;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
@@ -12,7 +10,6 @@ import java.lang.reflect.Method;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-@ExtendWith(MockitoExtension.class)
 class EnderecoTest {
 
     private static final String RUA_NOME_AUSENTE = "O nome da rua deve ser informado";

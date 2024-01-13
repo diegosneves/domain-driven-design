@@ -1,8 +1,8 @@
-package diegosneves.ddd.github.service;
+package diegosneves.ddd.github.domain.service;
 
-import diegosneves.ddd.github.entity.Cliente;
-import diegosneves.ddd.github.entity.ItemPedido;
-import diegosneves.ddd.github.entity.Pedido;
+import diegosneves.ddd.github.domain.entity.Cliente;
+import diegosneves.ddd.github.domain.entity.ItemPedido;
+import diegosneves.ddd.github.domain.entity.Pedido;
 import diegosneves.ddd.github.exceptions.PedidoException;
 
 import java.math.BigDecimal;

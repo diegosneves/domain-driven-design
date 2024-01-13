@@ -1,10 +1,8 @@
-package diegosneves.ddd.github.entity;
+package diegosneves.ddd.github.domain.entity;
 
 import diegosneves.ddd.github.exceptions.PedidoException;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
@@ -15,7 +13,6 @@ import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-@ExtendWith(MockitoExtension.class)
 class PedidoTest {
 
     private static final String ID_INVALIDO = "O ID informado não deve ser nulo nem vazio.";

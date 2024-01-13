@@ -1,10 +1,8 @@
-package diegosneves.ddd.github.entity;
+package diegosneves.ddd.github.domain.entity;
 
 import diegosneves.ddd.github.exceptions.ProdutoException;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
@@ -13,7 +11,6 @@ import java.math.BigDecimal;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-@ExtendWith(MockitoExtension.class)
 class ProdutoTest {
 
     private static final String ID_REQUIRED = "O ID do produto é obrigatório";
