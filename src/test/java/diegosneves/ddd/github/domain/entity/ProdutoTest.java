@@ -230,4 +230,14 @@ class ProdutoTest {
         assertEquals(BigDecimal.TEN, antigoPreco);
     }
 
+    @Test
+    void deveRetornarIdDoProdutoQuandoGetIdChamado() {
+        assertEquals("PR01", this.produto.getId());
+    }
+
+    @Test
+    void deveRetornarNomeDoProdutoQuandoGetNomeForChamado() {
+        assertEquals("Produto", this.produto.getNome());
+    }
+
 }

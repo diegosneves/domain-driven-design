@@ -1,8 +1,9 @@
 package diegosneves.ddd.github;
 
-import diegosneves.ddd.github.domain.entity.*;
-import diegosneves.ddd.github.domain.repository.ProdutoRepository;
-import diegosneves.ddd.github.repository.ProdutoEntityRepository;
+import diegosneves.ddd.github.domain.entity.Cliente;
+import diegosneves.ddd.github.domain.entity.Endereco;
+import diegosneves.ddd.github.domain.entity.ItemPedido;
+import diegosneves.ddd.github.domain.entity.Pedido;
 
 import java.math.BigDecimal;
 import java.util.List;

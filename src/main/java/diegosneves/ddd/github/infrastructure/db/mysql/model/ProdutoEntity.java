@@ -26,9 +26,7 @@ public class ProdutoEntity {
         this.preco = preco;
     }
 
-    public ProdutoEntity() {
-
-    }
+    protected ProdutoEntity() {}
 
     public String getId() {
         return id;
