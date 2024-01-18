@@ -132,7 +132,7 @@ class ClienteTest {
     void quandoAtivarClienteVerificarQueEnderecoEstaOKEntaoClienteSeraAtivado() throws Exception {
         Field field = this.cliente.getClass().getDeclaredField("ativo");
         field.setAccessible(true);
-        this.cliente.setEndereco(this.endereco);
+        this.cliente.adicionarEndereco(this.endereco);
 
         this.cliente.ativarCliente();
 
@@ -154,7 +154,7 @@ class ClienteTest {
     void quandoDesativarClienteForChamadoEntaoClienteSeraDesativado() throws Exception {
         Field field = this.cliente.getClass().getDeclaredField("ativo");
         field.setAccessible(true);
-        this.cliente.setEndereco(this.endereco);
+        this.cliente.adicionarEndereco(this.endereco);
 
         this.cliente.ativarCliente();
         assertTrue((boolean) field.get(cliente));
@@ -170,7 +170,7 @@ class ClienteTest {
 
         assertNull(field.get(this.cliente));
 
-        this.cliente.setEndereco(this.endereco);
+        this.cliente.adicionarEndereco(this.endereco);
         assertNotNull(field.get(this.cliente));
 
     }
@@ -188,7 +188,28 @@ class ClienteTest {
 
     @Test
     void quandoGetIdEhChamadoParaUmClienteEspecificoEntaoOIdDesseClienteDeveSerRetornado() {
-        assertEquals("005", cliente.getId());
+        assertEquals("005", this.cliente.getId());
+    }
+
+    @Test
+    void deveRetornarStatusAtivacaoCliente() {
+        assertEquals(Boolean.FALSE, this.cliente.getAtivo());
+    }
+
+    @Test
+    void aoChamarToStringDetalhesDoClienteDeveSerRetornado() {
+        assertEquals("Cliente{id='005', nome='Diego Neves', endereco=null, ativo=false, pontosDeRecompensa=0}", this.cliente.toString());
+    }
+
+    @Test
+    void deveRetornarNomeDoCliente() {
+        assertEquals("Diego Neves", this.cliente.getNome());
+    }
+
+    @Test
+    void deveRetornarEnderecoDoCliente() {
+        this.cliente.adicionarEndereco(this.endereco);
+        assertEquals(this.endereco, this.cliente.getEndereco());
     }
 
 }

@@ -6,4 +6,8 @@ public class ProdutoException extends RuntimeException {
     public ProdutoException(String message) {
         super(ERRO.mensagem(message));
     }
+
+    public ProdutoException(String message, Throwable cause) {
+        super(ERRO.mensagem(message), cause);
+    }
 }

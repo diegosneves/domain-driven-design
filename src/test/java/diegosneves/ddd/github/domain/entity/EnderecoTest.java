@@ -139,4 +139,24 @@ class EnderecoTest {
         assertTrue(result.contains("Cidade"));
     }
 
+    @Test
+    void deveRetornarValorEsperadoParaNomeDaRuaAoChamarGetRua() {
+        assertEquals("Rua A", endereco.getRua());
+    }
+
+    @Test
+    void deveRetornarValorEsperadoParaNumeroDaResidenciaAoChamarGetNumero() {
+        assertEquals(337, endereco.getNumero());
+    }
+
+    @Test
+    void deveRetornarValorEsperadoParaCepAoChamarGetCep() {
+        assertEquals("00000000", endereco.getCep());
+    }
+
+    @Test
+    void deveRetornarValorEsperadoParaNomeDaCidadeAoChamarGetCidade() {
+        assertEquals("Cidade", endereco.getCidade());
+    }
+
 }

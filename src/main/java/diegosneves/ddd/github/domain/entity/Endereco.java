@@ -38,6 +38,22 @@ public class Endereco {
         }
     }
 
+    public String getRua() {
+        return rua;
+    }
+
+    public Integer getNumero() {
+        return numero;
+    }
+
+    public String getCep() {
+        return cep;
+    }
+
+    public String getCidade() {
+        return cidade;
+    }
+
     @Override
     public String toString() {
         return "Endereco{" +

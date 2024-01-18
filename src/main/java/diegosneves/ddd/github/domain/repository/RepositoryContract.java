@@ -8,6 +8,8 @@ public interface RepositoryContract <T> {
 
     void atualizar(T entidade);
 
+    void deletar(T entidade);
+
     T buscarPorId(String id);
 
     List<T> buscarTodos();

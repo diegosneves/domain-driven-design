@@ -59,4 +59,13 @@ public class Produto {
     public String getNome() {
         return nome;
     }
+
+    @Override
+    public String toString() {
+        return "Produto{" +
+                "id='" + this.id + '\'' +
+                ", nome='" + this.nome + '\'' +
+                ", preco=" + this.preco +
+                '}';
+    }
 }

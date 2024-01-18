@@ -46,6 +46,18 @@ public class Cliente {
         return this.id;
     }
 
+    public String getNome() {
+        return nome;
+    }
+
+    public Endereco getEndereco() {
+        return endereco;
+    }
+
+    public Boolean getAtivo() {
+        return ativo;
+    }
+
     public Integer getPontosDeRecompensa() {
         return this.pontosDeRecompensa;
     }
@@ -58,7 +70,18 @@ public class Cliente {
         this.ativo = Boolean.FALSE;
     }
 
-    public void setEndereco(Endereco endereco) {
+    public void adicionarEndereco(Endereco endereco) {
         this.endereco = endereco;
+    }
+
+    @Override
+    public String toString() {
+        return "Cliente{" +
+                "id='" + this.id + '\'' +
+                ", nome='" + this.nome + '\'' +
+                ", endereco=" + this.endereco +
+                ", ativo=" + this.ativo +
+                ", pontosDeRecompensa=" + this.pontosDeRecompensa +
+                '}';
     }
 }

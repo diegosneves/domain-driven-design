@@ -240,4 +240,10 @@ class ProdutoTest {
         assertEquals("Produto", this.produto.getNome());
     }
 
+    @Test
+    void aoChamarToString_deveRetornarStringComDetalhesDoProduto() {
+        String expectedString = "Produto{id='PR01', nome='Produto', preco=10}";
+        assertEquals(expectedString, this.produto.toString());
+    }
+
 }

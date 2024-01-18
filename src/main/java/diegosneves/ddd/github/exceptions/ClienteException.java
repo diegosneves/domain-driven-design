@@ -6,4 +6,8 @@ public class ClienteException extends RuntimeException {
     public ClienteException(String message) {
         super(ERRO.mensagem(message));
     }
+
+    public ClienteException(String message, Throwable cause) {
+        super(ERRO.mensagem(message), cause);
+    }
 }
