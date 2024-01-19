@@ -145,5 +145,22 @@ class PedidoTest {
         assertTrue(actual.contains("P02"));
     }
 
+    @Test
+    void deveRetornarIdPedidoQuandoChamarGetId(){
+        assertEquals("001", this.pedido.getId());
+    }
+
+    @Test
+    void deveRetornarClienteIdQuandoChamarGetClienteId() {
+        assertEquals("C01", this.pedido.getClienteId());
+    }
+
+    @Test
+    void deveRetornarUmaListaDeItensAoChamarGetItens() {
+        assertNotNull(this.pedido.getItens());
+        assertEquals(2, this.pedido.getItens().size());
+        assertEquals(this.itemPedidoI, this.pedido.getItens().get(0));
+        assertEquals(this.itemPedidoII, this.pedido.getItens().get(1));
+    }
 
 }

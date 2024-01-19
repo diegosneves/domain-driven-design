@@ -6,4 +6,7 @@ public class PedidoException extends RuntimeException {
     public PedidoException(String message) {
         super(ERRO.mensagem(message));
     }
+    public PedidoException(String message, Throwable cause) {
+        super(ERRO.mensagem(message), cause);
+    }
 }

@@ -193,4 +193,30 @@ class ItemPedidoTest {
         assertEquals(ItemException.ERRO.mensagem(QUANTITY_MUST_BE_GREATER_THAN_ZERO), exception.getTargetException().getMessage());
     }
 
+    @Test
+    void deveRetornarIdDoItemPedidoAoChamarGetId() {
+        assertEquals("IP001", itemPedido.getId());
+    }
+
+    @Test
+    void deveRetornarProdutoIdDoItemPedidoAoChamarGetProdutoId() {
+        assertEquals("PR001", itemPedido.getProdutoId());
+    }
+
+    @Test
+    void deveRetornarNomeDoItemPedidoAoChamarGetNome() {
+        assertEquals("Item", itemPedido.getName());
+    }
+
+    @Test
+    void deveRetornarPrecoDoItemPedidoAoChamarGetPreco() {
+        BigDecimal expected = BigDecimal.valueOf(20);
+        assertEquals(expected, itemPedido.getPreco());
+    }
+
+    @Test
+    void deveRetornarQuantidadeDoItemPedidoAoChamarGetQuantidade() {
+        assertEquals(2, itemPedido.getQuantidade());
+    }
+
 }

@@ -5,8 +5,8 @@ import diegosneves.ddd.github.domain.repository.ProdutoRepository;
 import diegosneves.ddd.github.exceptions.ProdutoException;
 import diegosneves.ddd.github.infrastructure.db.mysql.config.HibernateConnectionSingleton;
 import diegosneves.ddd.github.infrastructure.db.mysql.model.ProdutoEntity;
-import diegosneves.ddd.github.mapper.BuilderMapper;
 import diegosneves.ddd.github.mapper.MapperStrategy;
+import diegosneves.ddd.github.mapper.ProdutoEntityFromProdudoMapper;
 import diegosneves.ddd.github.mapper.ProdutoFromProdutoEntityMapper;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
@@ -24,13 +24,20 @@ public class ProdutoEntityRepository implements ProdutoRepository {
     private static final String FALHA_AO_ATUALIZAR_ENTIDADE_PRODUTO = "Falha ao atualizar o Produto de ID: [ %s ]:";
     private static final String FALHA_AO_DELETAR_ENTIDADE_PRODUTO = "Falha ao deletar o Produto de ID: [ %s ]:";
     private static final String FALHA_AO_BUSCAR_TODOS_OS_PRODUTOS = "Falha ao buscar todos os produtos";
+    private static final String OBJETO_PRODUTO_NECESSARIO = "O Objeto Produto é obrigatório!";
+    private static final String PRODUTO_ID_NULO = "ID do Produto não pode ser nulo!";
+
+    private final MapperStrategy<ProdutoEntity, Produto> produtoEntityFromProdutoMapper = new ProdutoEntityFromProdudoMapper();
+    private final MapperStrategy<Produto, ProdutoEntity> produtoFromProdutoEntityMapper = new ProdutoFromProdutoEntityMapper();
 
     @Override
     public void guardar(Produto entidade) {
-        ProdutoEntity produtoEntity = BuilderMapper.mapper(ProdutoEntity.class, entidade);
-        Session session = HibernateConnectionSingleton.getSession();
+        if (isNull(entidade)) {
+            throw new ProdutoException(OBJETO_PRODUTO_NECESSARIO);
+        }
+        ProdutoEntity produtoEntity = this.produtoEntityFromProdutoMapper.mapper(entidade);
         Transaction transaction = null;
-        try {
+        try (Session session = HibernateConnectionSingleton.getSession()){
             transaction = session.beginTransaction();
             session.persist(produtoEntity);
             session.getTransaction().commit();
@@ -46,10 +53,12 @@ public class ProdutoEntityRepository implements ProdutoRepository {
 
     @Override
     public void atualizar(Produto entidade) {
-        ProdutoEntity produtoEntity = BuilderMapper.mapper(ProdutoEntity.class, entidade);
-        Session session = HibernateConnectionSingleton.getSession();
+        if (isNull(entidade)) {
+            throw new ProdutoException(OBJETO_PRODUTO_NECESSARIO);
+        }
+        ProdutoEntity produtoEntity = this.produtoEntityFromProdutoMapper.mapper(entidade);
         Transaction transaction = null;
-        try {
+        try (Session session = HibernateConnectionSingleton.getSession()){
             transaction = session.beginTransaction();
             session.merge(produtoEntity);
             session.getTransaction().commit();
@@ -66,10 +75,12 @@ public class ProdutoEntityRepository implements ProdutoRepository {
 
     @Override
     public void deletar(Produto entidade) {
-        ProdutoEntity produtoEntity = BuilderMapper.mapper(ProdutoEntity.class, entidade);
-        Session session = HibernateConnectionSingleton.getSession();
+        if (isNull(entidade)) {
+            throw new ProdutoException(OBJETO_PRODUTO_NECESSARIO);
+        }
+        ProdutoEntity produtoEntity = this.produtoEntityFromProdutoMapper.mapper(entidade);
         Transaction transaction = null;
-        try {
+        try (Session session = HibernateConnectionSingleton.getSession()){
             transaction = session.beginTransaction();
             session.remove(produtoEntity);
             session.getTransaction().commit();
@@ -85,16 +96,17 @@ public class ProdutoEntityRepository implements ProdutoRepository {
 
     @Override
     public Produto buscarPorId(String id) throws ProdutoException {
-        Session session = HibernateConnectionSingleton.getSession();
-        MapperStrategy<Produto, ProdutoEntity> produtoFromProdutoEntity = new ProdutoFromProdutoEntityMapper();
-        try {
+        if (isNull(id) || id.isBlank()) {
+            throw new ProdutoException(PRODUTO_ID_NULO);
+        }
+        try (Session session = HibernateConnectionSingleton.getSession()){
             Query<ProdutoEntity> query = session.createQuery("FROM ProdutoEntity p where p.id = :id", ProdutoEntity.class);
             query.setParameter("id", id);
             ProdutoEntity resultado = query.uniqueResult();
             if (isNull(resultado)) {
                 throw new ProdutoException(String.format(PRODUTO_NAO_ENCONTRADO, id));
             }
-            return BuilderMapper.mapper(Produto.class, resultado, produtoFromProdutoEntity);
+            return this.produtoFromProdutoEntityMapper.mapper(resultado);
         } catch (Exception e) {
             throw new ProdutoException(String.format(PRODUTO_NAO_ENCONTRADO, id), e);
         } finally {
@@ -104,12 +116,10 @@ public class ProdutoEntityRepository implements ProdutoRepository {
 
     @Override
     public List<Produto> buscarTodos() {
-        Session session = HibernateConnectionSingleton.getSession();
         List<Produto> produtos = new ArrayList<>();
-        MapperStrategy<Produto, ProdutoEntity> produtoFromProdutoEntity = new ProdutoFromProdutoEntityMapper();
-        try {
+        try (Session session = HibernateConnectionSingleton.getSession()){
             Query<ProdutoEntity> query = session.createQuery("FROM ProdutoEntity", ProdutoEntity.class);
-            produtos = query.list().stream().map(produtoEntity -> BuilderMapper.mapper(Produto.class, produtoEntity, produtoFromProdutoEntity)).toList();
+            produtos = query.list().stream().map(this.produtoFromProdutoEntityMapper::mapper).toList();
         } catch (Exception e) {
             throw new ProdutoException(FALHA_AO_BUSCAR_TODOS_OS_PRODUTOS, e);
         } finally {

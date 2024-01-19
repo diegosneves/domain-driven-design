@@ -51,6 +51,22 @@ public class ItemPedido {
         return this.preco.multiply(BigDecimal.valueOf(this.quantidade));
     }
 
+    public String getId() {
+        return id;
+    }
+
+    public String getProdutoId() {
+        return produtoId;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public Integer getQuantidade() {
+        return quantidade;
+    }
+
     @Override
     public String toString() {
         return "ItemPedido{" +

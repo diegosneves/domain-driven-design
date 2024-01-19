@@ -43,6 +43,17 @@ public class Pedido {
         return this.total;
     }
 
+    public String getId() {
+        return id;
+    }
+
+    public String getClienteId() {
+        return clienteId;
+    }
+
+    public List<ItemPedido> getItens() {
+        return itens;
+    }
 
     @Override
     public String toString() {
