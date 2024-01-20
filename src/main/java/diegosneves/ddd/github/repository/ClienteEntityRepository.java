@@ -1,6 +1,8 @@
 package diegosneves.ddd.github.repository;
 
 import diegosneves.ddd.github.domain.entity.Cliente;
+import diegosneves.ddd.github.domain.event.DistribuidorEventos;
+import diegosneves.ddd.github.domain.event.customer.EventoCriarCliente;
 import diegosneves.ddd.github.domain.repository.ClienteRepository;
 import diegosneves.ddd.github.exceptions.ClienteException;
 import diegosneves.ddd.github.infrastructure.db.mysql.config.HibernateConnectionSingleton;
@@ -42,6 +44,7 @@ public class ClienteEntityRepository implements ClienteRepository {
             transaction = session.beginTransaction();
             session.persist(entity);
             session.getTransaction().commit();
+            DistribuidorEventos.notificar(new EventoCriarCliente(entidade));
         } catch (Exception e) {
             if (transaction != null) {
                 transaction.rollback();

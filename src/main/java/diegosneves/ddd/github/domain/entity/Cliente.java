@@ -1,5 +1,7 @@
 package diegosneves.ddd.github.domain.entity;
 
+import diegosneves.ddd.github.domain.event.DistribuidorEventos;
+import diegosneves.ddd.github.domain.event.customer.EventoEnderecoAlterado;
 import diegosneves.ddd.github.exceptions.ClienteException;
 
 import static java.util.Objects.isNull;
@@ -72,6 +74,7 @@ public class Cliente {
 
     public void adicionarEndereco(Endereco endereco) {
         this.endereco = endereco;
+        DistribuidorEventos.notificar(new EventoEnderecoAlterado(this));
     }
 
     @Override

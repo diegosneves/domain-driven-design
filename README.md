@@ -117,9 +117,14 @@ class DistribuidorEventos {
   - DistribuidorEventos() 
   - Map~String, List~ManipuladorEventoContrato~Evento~~~ processos
   + notificar(T) void
+  + remover(ManipuladorEventoContrato~?~) void
   + removerTodos() void
   + registrar(ManipuladorEventoContrato~Evento~) void
-  + remover(ManipuladorEventoContrato~?~) void
+}
+class EnviarEmailAoCriarClienteHandler {
+  + EnviarEmailAoCriarClienteHandler() 
+  + processarEvento(EventoCriarCliente) void
+  + eventName() String
 }
 class EnviarEmailAoCriarProdutoHandler {
   + EnviarEmailAoCriarProdutoHandler() 
@@ -131,26 +136,46 @@ class Evento~T~ {
   # LocalDateTime data
   # String objectName
   # T dadosDoEvento
-  + getObjectName() String
   + getDadosDoEvento() T
   + getData() LocalDateTime
+  + getObjectName() String
+}
+class EventoCriarCliente {
+  + EventoCriarCliente(Cliente) 
 }
 class EventoCriarProduto {
   + EventoCriarProduto(Produto) 
 }
+class EventoEnderecoAlterado {
+  + EventoEnderecoAlterado(Cliente) 
+}
 class ManipuladorEventoContrato~T~ {
 <<Interface>>
-  + processarEvento(T) void
   + eventName() String
+  + processarEvento(T) void
+}
+class NotificarAlteracaoEnderecoCliente {
+  + NotificarAlteracaoEnderecoCliente() 
+  + eventName() String
+  + processarEvento(EventoEnderecoAlterado) void
 }
 
 DistribuidorEventos  ..>  Evento~T~ 
 DistribuidorEventos  ..>  ManipuladorEventoContrato~T~ 
+EnviarEmailAoCriarClienteHandler  ..>  Evento~T~ 
+EnviarEmailAoCriarClienteHandler  ..>  EventoCriarCliente 
+EnviarEmailAoCriarClienteHandler  ..>  ManipuladorEventoContrato~T~ 
 EnviarEmailAoCriarProdutoHandler  ..>  Evento~T~ 
 EnviarEmailAoCriarProdutoHandler  ..>  EventoCriarProduto 
 EnviarEmailAoCriarProdutoHandler  ..>  ManipuladorEventoContrato~T~ 
+EventoCriarCliente  -->  Evento~T~ 
 EventoCriarProduto  -->  Evento~T~ 
+EventoEnderecoAlterado  -->  Evento~T~ 
 ManipuladorEventoContrato~T~  ..>  Evento~T~ 
+NotificarAlteracaoEnderecoCliente  ..>  Evento~T~ 
+NotificarAlteracaoEnderecoCliente  ..>  EventoEnderecoAlterado 
+NotificarAlteracaoEnderecoCliente  ..>  ManipuladorEventoContrato~T~ 
+
 ```
 
 ### Repositories
@@ -407,7 +432,7 @@ class ItemPedidoFromItemPedidoEntity {
   + ItemPedidoFromItemPedidoEntity() 
   + mapper(ItemPedidoEntity) ItemPedido
 }
-class MapperStrategy~T, E~ {
+class MapperStrategy~T; E~ {
 <<Interface>>
   + mapper(E) T
 }
@@ -428,18 +453,18 @@ class ProdutoFromProdutoEntityMapper {
   + mapper(ProdutoEntity) Produto
 }
 
-BuilderMapper  ..>  MapperStrategy~T, E~ 
-ClienteEntityFromClienteMapper  ..>  MapperStrategy~T, E~ 
-ClienteFromClienteEntityMapper  ..>  MapperStrategy~T, E~ 
-ItemPedidoEntityFromItemPedido  ..>  MapperStrategy~T, E~ 
-ItemPedidoFromItemPedidoEntity  ..>  MapperStrategy~T, E~ 
+BuilderMapper  ..>  MapperStrategy~T; E~ 
+ClienteEntityFromClienteMapper  ..>  MapperStrategy~T; E~ 
+ClienteFromClienteEntityMapper  ..>  MapperStrategy~T; E~ 
+ItemPedidoEntityFromItemPedido  ..>  MapperStrategy~T; E~ 
+ItemPedidoFromItemPedidoEntity  ..>  MapperStrategy~T; E~ 
 PedidoEntityFromPedidoMapper  ..>  ItemPedidoEntityFromItemPedido 
-PedidoEntityFromPedidoMapper  ..>  MapperStrategy~T, E~ 
+PedidoEntityFromPedidoMapper  ..>  MapperStrategy~T; E~ 
 PedidoFromPedidoEntityMapper  ..>  BuilderMapper 
 PedidoFromPedidoEntityMapper  ..>  ItemPedidoFromItemPedidoEntity 
-PedidoFromPedidoEntityMapper  ..>  MapperStrategy~T, E~ 
-ProdutoEntityFromProdudoMapper  ..>  MapperStrategy~T, E~ 
-ProdutoFromProdutoEntityMapper  ..>  MapperStrategy~T, E~ 
+PedidoFromPedidoEntityMapper  ..>  MapperStrategy~T; E~ 
+ProdutoEntityFromProdudoMapper  ..>  MapperStrategy~T; E~ 
+ProdutoFromProdutoEntityMapper  ..>  MapperStrategy~T; E~ 
 ```
 
 ---
