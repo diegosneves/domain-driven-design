@@ -2,21 +2,28 @@ package diegosneves.ddd.github.domain.event.contract;
 
 import java.time.LocalDateTime;
 
-public abstract class Evento {
+public abstract class Evento <T> {
 
     protected LocalDateTime data;
-    protected Object dadosDoEvento;
+    protected String objectName;
+    protected T dadosDoEvento;
 
-    protected Evento(Object dadosDoEvento) {
+    protected Evento(T dadosDoEvento) {
         this.data = LocalDateTime.now();
         this.dadosDoEvento = dadosDoEvento;
+        this.objectName = dadosDoEvento.getClass().getSimpleName();
     }
 
     public LocalDateTime getData() {
         return data;
     }
 
-    public Object getDadosDoEvento() {
+    public T getDadosDoEvento() {
         return dadosDoEvento;
     }
+
+    public String getObjectName() {
+        return objectName;
+    }
+
 }

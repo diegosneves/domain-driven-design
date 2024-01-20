@@ -1,6 +1,6 @@
 package diegosneves.ddd.github.domain.event.product.handler;
 
-import diegosneves.ddd.github.domain.event.contract.Evento;
+import diegosneves.ddd.github.domain.entity.Produto;
 import diegosneves.ddd.github.domain.event.contract.ManipuladorEventoContrato;
 import diegosneves.ddd.github.domain.event.product.EventoCriarProduto;
 
@@ -12,8 +12,14 @@ public class EnviarEmailAoCriarProdutoHandler implements ManipuladorEventoContra
     }
 
     @Override
-    public void processarEvento(Evento evento) {
-        System.out.printf("Enviando email... %s Criado!! [ %s ]", evento.getDadosDoEvento().getClass().getSimpleName(), evento.getData());
+    public void processarEvento(EventoCriarProduto evento) {
+        Produto produto = evento.getDadosDoEvento();
+        System.out.printf("%s Criado - [ %s ]\nID: %s\nNome do Produto: %s\nPreço: R$%,.2f\nEnviando email...\n",
+                evento.getObjectName(),
+                evento.getData(),
+                produto.getId(),
+                produto.getNome(),
+                produto.getPreco().doubleValue());
     }
 
 }

@@ -2,6 +2,7 @@ package diegosneves.ddd.github.domain.event;
 
 import diegosneves.ddd.github.domain.event.contract.Evento;
 import diegosneves.ddd.github.domain.event.contract.ManipuladorEventoContrato;
+import diegosneves.ddd.github.exceptions.EventosException;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -13,21 +14,25 @@ import static java.util.Objects.nonNull;
 
 public class DistribuidorEventos {
 
-    private static Map<String, List<ManipuladorEventoContrato<?>>> processos = new HashMap<>();
+    private static Map<String, List<ManipuladorEventoContrato<? extends Evento>>> processos = new HashMap<>();
 
     private DistribuidorEventos() {}
 
-    public static void notificar(Evento evento) {
-        List<ManipuladorEventoContrato<?>> manipuladores = processos.get(evento.getClass().getSimpleName());
+    public static <T extends Evento> void notificar(T evento) {
+        List<ManipuladorEventoContrato<? extends Evento>> manipuladores = processos.get(evento.getClass().getSimpleName());
         if (nonNull(manipuladores)) {
-            for (ManipuladorEventoContrato<?> manipulador : manipuladores) {
-                manipulador.processarEvento(evento);
+            for (ManipuladorEventoContrato<? extends Evento> manipulador : manipuladores) {
+                try {
+                    ((ManipuladorEventoContrato<T>) manipulador).processarEvento(evento);
+                } catch (Exception e) {
+                    throw new EventosException(evento.getClass().getSimpleName(), e);
+                }
             }
         }
     }
 
-    public static void registrar(ManipuladorEventoContrato<?> manipuladorEvento) {
-        List<ManipuladorEventoContrato<?>> manipuladores = processos.get(manipuladorEvento.eventName());
+    public static void registrar(ManipuladorEventoContrato<? extends Evento> manipuladorEvento) {
+        List<ManipuladorEventoContrato<? extends Evento>> manipuladores = processos.get(manipuladorEvento.eventName());
 
         if (isNull(manipuladores)) {
             manipuladores = new ArrayList<>();
@@ -39,7 +44,7 @@ public class DistribuidorEventos {
     }
 
     public static void remover(ManipuladorEventoContrato<?> manipuladorEvento) {
-        List<ManipuladorEventoContrato<?>> manipuladores = processos.get(manipuladorEvento.eventName());
+        List<ManipuladorEventoContrato<? extends Evento>> manipuladores = processos.get(manipuladorEvento.eventName());
         if (nonNull(manipuladores)) {
             manipuladores.remove(manipuladorEvento);
         }
