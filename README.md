@@ -24,8 +24,9 @@ Na busca pelo entendimento de DDD, deparar-se-á com alguns conceitos chaves:
 Vale ressaltar que este é somente um panorama superficial de DDD. A metodologia é vasta e aprofundada e é altamente recomendado um estudo mais minucioso para quem desejar incorporá-la ao seu processo de desenvolvimento.
 
 ---
-### Domain
+## Domain
 
+### Entities
 ```mermaid
 classDiagram
 direction BT
@@ -52,18 +53,6 @@ class Cliente {
   + desativarCliente() void
   + adicionarEndereco(Endereco) void
 }
-class ClienteRepository {
-<<Interface>>
-
-}
-class DistribuidorEventos {
-  - DistribuidorEventos() 
-  - Map~String, List~ManipuladorEventoContrato~Evento~~~ processos
-  + notificar(T) void
-  + removerTodos() void
-  + registrar(ManipuladorEventoContrato~Evento~) void
-  + remover(ManipuladorEventoContrato~?~) void
-}
 class Endereco {
   + Endereco(String, Integer, String, String) 
   - String RUA_NOME_AUSENTE
@@ -80,23 +69,6 @@ class Endereco {
   + getCep() String
   + getCidade() String
   + toString() String
-}
-class EnviarEmailAoCriarProdutoHandler {
-  + EnviarEmailAoCriarProdutoHandler() 
-  + processarEvento(EventoCriarProduto) void
-  + eventName() String
-}
-class Evento~T~ {
-  # Evento(T) 
-  # LocalDateTime data
-  # String objectName
-  # T dadosDoEvento
-  + getObjectName() String
-  + getDadosDoEvento() T
-  + getData() LocalDateTime
-}
-class EventoCriarProduto {
-  + EventoCriarProduto(Produto) 
 }
 class ItemPedido {
   + ItemPedido(String, String, BigDecimal, String, Integer) 
@@ -118,11 +90,6 @@ class ItemPedido {
   + getName() String
   + toString() String
 }
-class ManipuladorEventoContrato~T~ {
-<<Interface>>
-  + processarEvento(T) void
-  + eventName() String
-}
 class Pedido {
   + Pedido(String, String, List~ItemPedido~) 
   - String clienteId
@@ -138,16 +105,6 @@ class Pedido {
   + getId() String
   + getItens() List~ItemPedido~
   + getClienteId() String
-}
-class PedidoRepository {
-<<Interface>>
-
-}
-class PedidoService {
-  - PedidoService() 
-  - String CLIENTE_OBRIGATORIO
-  + calcularValorTotalDosPedidos(List~Pedido~) BigDecimal
-  + fazerEncomenda(Cliente, List~ItemPedido~) Pedido
 }
 class Produto {
   + Produto(String, String, BigDecimal) 
@@ -165,14 +122,70 @@ class Produto {
   + getPreco() BigDecimal
   + alterarPreco(BigDecimal) void
 }
-class ProdutoRepository {
+
+Cliente "1" *--> "endereco 1" Endereco 
+Pedido "1" *--> "itens *" ItemPedido 
+```
+### Events
+
+```mermaid
+classDiagram
+direction BT
+class DistribuidorEventos {
+  - DistribuidorEventos() 
+  - Map~String, List~ManipuladorEventoContrato~Evento~~~ processos
+  + notificar(T) void
+  + removerTodos() void
+  + registrar(ManipuladorEventoContrato~Evento~) void
+  + remover(ManipuladorEventoContrato~?~) void
+}
+class EnviarEmailAoCriarProdutoHandler {
+  + EnviarEmailAoCriarProdutoHandler() 
+  + processarEvento(EventoCriarProduto) void
+  + eventName() String
+}
+class Evento~T~ {
+  # Evento(T) 
+  # LocalDateTime data
+  # String objectName
+  # T dadosDoEvento
+  + getObjectName() String
+  + getDadosDoEvento() T
+  + getData() LocalDateTime
+}
+class EventoCriarProduto {
+  + EventoCriarProduto(Produto) 
+}
+class ManipuladorEventoContrato~T~ {
+<<Interface>>
+  + processarEvento(T) void
+  + eventName() String
+}
+
+DistribuidorEventos  ..>  Evento~T~ 
+DistribuidorEventos  ..>  ManipuladorEventoContrato~T~ 
+EnviarEmailAoCriarProdutoHandler  ..>  Evento~T~ 
+EnviarEmailAoCriarProdutoHandler  ..>  EventoCriarProduto 
+EnviarEmailAoCriarProdutoHandler  ..>  ManipuladorEventoContrato~T~ 
+EventoCriarProduto  -->  Evento~T~ 
+ManipuladorEventoContrato~T~  ..>  Evento~T~ 
+```
+
+### Repositories
+```mermaid
+classDiagram
+direction BT
+class ClienteRepository {
 <<Interface>>
 
 }
-class ProdutoService {
-  - ProdutoService() 
-  - double PERCENTAGE_BASE
-  + aplicarAumentoPercentualAoPrecoDosProdutos(List~Produto~, Double) void
+class PedidoRepository {
+<<Interface>>
+
+}
+class ProdutoRepository {
+<<Interface>>
+
 }
 class RepositoryContract~T~ {
 <<Interface>>
@@ -183,42 +196,135 @@ class RepositoryContract~T~ {
   + deletar(T) void
 }
 
-Cliente "1" *--> "endereco 1" Endereco 
-ClienteRepository  ..>  Cliente 
 ClienteRepository  -->  RepositoryContract~T~ 
-DistribuidorEventos  ..>  Evento~T~ 
-DistribuidorEventos  ..>  ManipuladorEventoContrato~T~ 
-EnviarEmailAoCriarProdutoHandler  ..>  Evento~T~ 
-EnviarEmailAoCriarProdutoHandler  ..>  EventoCriarProduto 
-EnviarEmailAoCriarProdutoHandler  ..>  ManipuladorEventoContrato~T~ 
-EnviarEmailAoCriarProdutoHandler  ..>  Produto 
-EventoCriarProduto  -->  Evento~T~ 
-EventoCriarProduto  ..>  Produto 
-ManipuladorEventoContrato~T~  ..>  Evento~T~ 
-Pedido "1" *--> "itens *" ItemPedido 
-PedidoRepository  ..>  Pedido 
 PedidoRepository  -->  RepositoryContract~T~ 
-PedidoService  ..>  Cliente 
-PedidoService  ..>  ItemPedido 
-PedidoService  ..>  Pedido 
-ProdutoRepository  ..>  Produto 
 ProdutoRepository  -->  RepositoryContract~T~ 
-ProdutoService  ..>  Produto 
+```
+
+### Services
+```mermaid
+classDiagram
+direction BT
+class PedidoService {
+  - PedidoService() 
+  - String CLIENTE_OBRIGATORIO
+  + calcularValorTotalDosPedidos(List~Pedido~) BigDecimal
+  + fazerEncomenda(Cliente, List~ItemPedido~) Pedido
+}
+class ProdutoService {
+  - ProdutoService() 
+  - double PERCENTAGE_BASE
+  + aplicarAumentoPercentualAoPrecoDosProdutos(List~Produto~, Double) void
+}
+
 
 ```
 
 ---
 
-## Infra | Mappers | Repositories
+## Exceptions
 
 ```mermaid
 classDiagram
 direction BT
-class BuilderMapper {
-<<Interface>>
-  + mapper(Class~T~, Object) T
-  + mapper(Class~T~, E, MapperStrategy~T, E~) T
+class ClienteException {
+  + ClienteException(String, Throwable) 
+  + ClienteException(String) 
+  + ManipuladorDeMensagensDeErros ERRO
 }
+class EnderecoException {
+  + EnderecoException(String) 
+  + ManipuladorDeMensagensDeErros ERRO
+}
+class EventosException {
+  + EventosException(String) 
+  + EventosException(String, Throwable) 
+  + ManipuladorDeMensagensDeErros ERRO
+}
+class ItemException {
+  + ItemException(String) 
+  + ManipuladorDeMensagensDeErros ERRO
+}
+class ManipuladorDeMensagensDeErros {
+<<enumeration>>
+  - ManipuladorDeMensagensDeErros(String) 
+  +  PEDIDO_INVALIDO
+  +  ITEM_PEDIDO_INVALIDO
+  +  ENDERECO_INVALIDO
+  +  PRODUTO_INVALIDO
+  +  CLIENTE_INVALIDO
+  - String erro
+  +  EVENTOS_CAST
+  + mensagem(String) String
+}
+class PedidoException {
+  + PedidoException(String, Throwable) 
+  + PedidoException(String) 
+  + ManipuladorDeMensagensDeErros ERRO
+}
+class ProdutoException {
+  + ProdutoException(String, Throwable) 
+  + ProdutoException(String) 
+  + ManipuladorDeMensagensDeErros ERRO
+}
+
+ClienteException "1" *--> "ERRO 1" ManipuladorDeMensagensDeErros 
+EnderecoException "1" *--> "ERRO 1" ManipuladorDeMensagensDeErros 
+EventosException "1" *--> "ERRO 1" ManipuladorDeMensagensDeErros 
+ItemException "1" *--> "ERRO 1" ManipuladorDeMensagensDeErros 
+PedidoException "1" *--> "ERRO 1" ManipuladorDeMensagensDeErros 
+ProdutoException "1" *--> "ERRO 1" ManipuladorDeMensagensDeErros 
+```
+---
+## Infrastructure
+
+### DB
+
+```mermaid
+classDiagram
+direction BT
+class clientes {
+   bit(1) ativo
+   varchar(255) cep
+   varchar(255) cidade
+   varchar(255) nome
+   int numero
+   int pontos_de_recompensa
+   varchar(255) rua
+   varchar(255) id
+}
+class itens_pedido {
+   varchar(255) name
+   decimal(38,2) preco
+   varchar(255) produdo_id
+   int quantidade
+   varchar(255) itens
+   varchar(255) id
+}
+class pedidos {
+   varchar(255) cliente_id
+   decimal(38,2) total
+   varchar(255) id
+}
+class pedidos_itens_pedido {
+   varchar(255) PedidoEntity_id
+   varchar(255) itens_id
+}
+class produtos {
+   varchar(255) nome
+   decimal(38,2) preco
+   varchar(255) id
+}
+
+itens_pedido  -->  pedidos : itens
+pedidos  -->  clientes : cliente_id
+pedidos_itens_pedido  -->  itens_pedido : itens_id
+pedidos_itens_pedido  -->  pedidos : PedidoEntity_id
+```
+
+```mermaid
+classDiagram
+direction BT
 class ClienteEntity {
   + ClienteEntity() 
   - ClienteEntity(Builder) 
@@ -240,31 +346,6 @@ class ClienteEntity {
   + getCep() String
   + getCidade() String
   + getRua() String
-}
-class ClienteEntityFromClienteMapper {
-  + ClienteEntityFromClienteMapper() 
-  + mapper(Cliente) ClienteEntity
-}
-class ClienteEntityRepository {
-  + ClienteEntityRepository() 
-  - String FALHA_AO_ATUALIZAR_O_CLIENTE
-  - String CLIENTE_BUSCA_ID_ERRO
-  - String FALHA_AO_SALVAR_ENTIDADE_CLIENTE
-  - String FALHA_AO_BUSCAR_TODOS_OS_CLIENTES
-  - String CLIENTE_ID_NULO
-  - MapperStrategy~ClienteEntity, Cliente~ clienteEntityFromClienteMapper
-  - MapperStrategy~Cliente, ClienteEntity~ clienteFromClienteEntityMapper
-  - String CLIENTE_NULO_EXCEPTION_MESSAGE
-  - String FALHA_AO_DELETAR_O_CLIENTE
-  + atualizar(Cliente) void
-  + buscarPorId(String) Cliente
-  + buscarTodos() List~Cliente~
-  + guardar(Cliente) void
-  + deletar(Cliente) void
-}
-class ClienteFromClienteEntityMapper {
-  + ClienteFromClienteEntityMapper() 
-  + mapper(ClienteEntity) Cliente
 }
 class HibernateConnectionSingleton {
   - HibernateConnectionSingleton() 
@@ -290,18 +371,6 @@ class ItemPedidoEntity {
   + getQuantidade() Integer
   + getPedido() PedidoEntity
 }
-class ItemPedidoEntityFromItemPedido {
-  + ItemPedidoEntityFromItemPedido() 
-  + mapper(ItemPedido) ItemPedidoEntity
-}
-class ItemPedidoFromItemPedidoEntity {
-  + ItemPedidoFromItemPedidoEntity() 
-  + mapper(ItemPedidoEntity) ItemPedido
-}
-class MapperStrategy~T, E~ {
-<<Interface>>
-  + mapper(E) T
-}
 class PedidoEntity {
   + PedidoEntity(String, String, BigDecimal, List~ItemPedidoEntity~) 
   - PedidoEntity(Builder) 
@@ -316,9 +385,108 @@ class PedidoEntity {
   + toString() String
   + getItens() List~ItemPedidoEntity~
 }
+class ProdutoEntity {
+  + ProdutoEntity(String, String, BigDecimal) 
+  + ProdutoEntity() 
+  - BigDecimal preco
+  - String id
+  - String nome
+  + getNome() String
+  + getId() String
+  + getPreco() BigDecimal
+}
+
+ItemPedidoEntity "1" *--> "pedido 1" PedidoEntity 
+PedidoEntity "1" *--> "itens *" ItemPedidoEntity 
+```
+
+---
+
+## Mappers
+```mermaid
+classDiagram
+direction BT
+class BuilderMapper {
+<<Interface>>
+  + mapper(Class~T~, Object) T
+  + mapper(Class~T~, E, MapperStrategy~T, E~) T
+}
+class ClienteEntityFromClienteMapper {
+  + ClienteEntityFromClienteMapper() 
+  + mapper(Cliente) ClienteEntity
+}
+class ClienteFromClienteEntityMapper {
+  + ClienteFromClienteEntityMapper() 
+  + mapper(ClienteEntity) Cliente
+}
+class ItemPedidoEntityFromItemPedido {
+  + ItemPedidoEntityFromItemPedido() 
+  + mapper(ItemPedido) ItemPedidoEntity
+}
+class ItemPedidoFromItemPedidoEntity {
+  + ItemPedidoFromItemPedidoEntity() 
+  + mapper(ItemPedidoEntity) ItemPedido
+}
+class MapperStrategy~T, E~ {
+<<Interface>>
+  + mapper(E) T
+}
 class PedidoEntityFromPedidoMapper {
   + PedidoEntityFromPedidoMapper() 
   + mapper(Pedido) PedidoEntity
+}
+class PedidoFromPedidoEntityMapper {
+  + PedidoFromPedidoEntityMapper() 
+  + mapper(PedidoEntity) Pedido
+}
+class ProdutoEntityFromProdudoMapper {
+  + ProdutoEntityFromProdudoMapper() 
+  + mapper(Produto) ProdutoEntity
+}
+class ProdutoFromProdutoEntityMapper {
+  + ProdutoFromProdutoEntityMapper() 
+  + mapper(ProdutoEntity) Produto
+}
+
+BuilderMapper  ..>  MapperStrategy~T, E~ 
+ClienteEntityFromClienteMapper  ..>  MapperStrategy~T, E~ 
+ClienteFromClienteEntityMapper  ..>  MapperStrategy~T, E~ 
+ItemPedidoEntityFromItemPedido  ..>  MapperStrategy~T, E~ 
+ItemPedidoFromItemPedidoEntity  ..>  MapperStrategy~T, E~ 
+PedidoEntityFromPedidoMapper  ..>  ItemPedidoEntityFromItemPedido 
+PedidoEntityFromPedidoMapper  ..>  MapperStrategy~T, E~ 
+PedidoFromPedidoEntityMapper  ..>  BuilderMapper 
+PedidoFromPedidoEntityMapper  ..>  ItemPedidoFromItemPedidoEntity 
+PedidoFromPedidoEntityMapper  ..>  MapperStrategy~T, E~ 
+ProdutoEntityFromProdudoMapper  ..>  MapperStrategy~T, E~ 
+ProdutoFromProdutoEntityMapper  ..>  MapperStrategy~T, E~ 
+```
+
+---
+## Repository
+```mermaid
+classDiagram
+direction BT
+class ClienteEntityRepository {
+  + ClienteEntityRepository() 
+  - String FALHA_AO_ATUALIZAR_O_CLIENTE
+  - String CLIENTE_BUSCA_ID_ERRO
+  - String FALHA_AO_SALVAR_ENTIDADE_CLIENTE
+  - String FALHA_AO_BUSCAR_TODOS_OS_CLIENTES
+  - String CLIENTE_ID_NULO
+  - MapperStrategy~ClienteEntity, Cliente~ clienteEntityFromClienteMapper
+  - MapperStrategy~Cliente, ClienteEntity~ clienteFromClienteEntityMapper
+  - String CLIENTE_NULO_EXCEPTION_MESSAGE
+  - String FALHA_AO_DELETAR_O_CLIENTE
+  + atualizar(Cliente) void
+  + buscarPorId(String) Cliente
+  + buscarTodos() List~Cliente~
+  + guardar(Cliente) void
+  + deletar(Cliente) void
+}
+class ClienteRepository {
+<<Interface>>
+
 }
 class PedidoEntityRepository {
   + PedidoEntityRepository() 
@@ -337,23 +505,9 @@ class PedidoEntityRepository {
   + buscarTodos() List~Pedido~
   + atualizar(Pedido) void
 }
-class PedidoFromPedidoEntityMapper {
-  + PedidoFromPedidoEntityMapper() 
-  + mapper(PedidoEntity) Pedido
-}
-class ProdutoEntity {
-  + ProdutoEntity(String, String, BigDecimal) 
-  + ProdutoEntity() 
-  - BigDecimal preco
-  - String id
-  - String nome
-  + getNome() String
-  + getId() String
-  + getPreco() BigDecimal
-}
-class ProdutoEntityFromProdudoMapper {
-  + ProdutoEntityFromProdudoMapper() 
-  + mapper(Produto) ProdutoEntity
+class PedidoRepository {
+<<Interface>>
+
 }
 class ProdutoEntityRepository {
   + ProdutoEntityRepository() 
@@ -372,50 +526,15 @@ class ProdutoEntityRepository {
   + buscarPorId(String) Produto
   + buscarTodos() List~Produto~
 }
-class ProdutoFromProdutoEntityMapper {
-  + ProdutoFromProdutoEntityMapper() 
-  + mapper(ProdutoEntity) Produto
+class ProdutoRepository {
+<<Interface>>
+
 }
 
-BuilderMapper  ..>  MapperStrategy~T, E~ 
-ClienteEntityFromClienteMapper  ..>  ClienteEntity 
-ClienteEntityFromClienteMapper  ..>  MapperStrategy~T, E~ 
-ClienteEntityRepository  ..>  ClienteEntity 
-ClienteEntityRepository  ..>  ClienteEntityFromClienteMapper 
-ClienteEntityRepository  ..>  ClienteFromClienteEntityMapper 
-ClienteEntityRepository  ..>  HibernateConnectionSingleton 
-ClienteEntityRepository "1" *--> "clienteEntityFromClienteMapper 1" MapperStrategy~T, E~ 
-ClienteFromClienteEntityMapper  ..>  ClienteEntity 
-ClienteFromClienteEntityMapper  ..>  MapperStrategy~T, E~ 
-ItemPedidoEntity "1" *--> "pedido 1" PedidoEntity 
-ItemPedidoEntityFromItemPedido  ..>  ItemPedidoEntity 
-ItemPedidoEntityFromItemPedido  ..>  MapperStrategy~T, E~ 
-ItemPedidoFromItemPedidoEntity  ..>  ItemPedidoEntity 
-ItemPedidoFromItemPedidoEntity  ..>  MapperStrategy~T, E~ 
-PedidoEntity "1" *--> "itens *" ItemPedidoEntity 
-PedidoEntityFromPedidoMapper  ..>  ItemPedidoEntity 
-PedidoEntityFromPedidoMapper  ..>  ItemPedidoEntityFromItemPedido 
-PedidoEntityFromPedidoMapper  ..>  MapperStrategy~T, E~ 
-PedidoEntityFromPedidoMapper  ..>  PedidoEntity 
-PedidoEntityRepository  ..>  HibernateConnectionSingleton 
-PedidoEntityRepository "1" *--> "pedidoEntityFromPedido 1" MapperStrategy~T, E~ 
-PedidoEntityRepository  ..>  PedidoEntity 
-PedidoEntityRepository  ..>  PedidoEntityFromPedidoMapper 
-PedidoEntityRepository  ..>  PedidoFromPedidoEntityMapper 
-PedidoFromPedidoEntityMapper  ..>  BuilderMapper 
-PedidoFromPedidoEntityMapper  ..>  ItemPedidoEntity 
-PedidoFromPedidoEntityMapper  ..>  ItemPedidoFromItemPedidoEntity 
-PedidoFromPedidoEntityMapper  ..>  MapperStrategy~T, E~ 
-PedidoFromPedidoEntityMapper  ..>  PedidoEntity 
-ProdutoEntityFromProdudoMapper  ..>  MapperStrategy~T, E~ 
-ProdutoEntityFromProdudoMapper  ..>  ProdutoEntity 
-ProdutoEntityRepository  ..>  HibernateConnectionSingleton 
-ProdutoEntityRepository "1" *--> "produtoEntityFromProdutoMapper 1" MapperStrategy~T, E~ 
-ProdutoEntityRepository  ..>  ProdutoEntity 
-ProdutoEntityRepository  ..>  ProdutoEntityFromProdudoMapper 
-ProdutoEntityRepository  ..>  ProdutoFromProdutoEntityMapper 
-ProdutoFromProdutoEntityMapper  ..>  MapperStrategy~T, E~ 
-ProdutoFromProdutoEntityMapper  ..>  ProdutoEntity 
+ClienteEntityRepository  ..>  ClienteRepository 
+PedidoEntityRepository  ..>  PedidoRepository 
+ProdutoEntityRepository  ..>  ProdutoRepository 
+
 ```
 
 ---
