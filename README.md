@@ -32,9 +32,6 @@ classDiagram
 direction BT
 class Cliente {
   + Cliente(String, String) 
-  - String ADICIONAR_UM_ENDERECO
-  - String INFORMAR_UM_NOME
-  - String INFORMAR_UM_ID
   - String id
   - Endereco endereco
   - Integer pontosDeRecompensa
@@ -55,13 +52,9 @@ class Cliente {
 }
 class Endereco {
   + Endereco(String, Integer, String, String) 
-  - String RUA_NOME_AUSENTE
-  - String NUMERO_RESIDENCIA_OBRIGATORIO
   - String rua
   - Integer numero
-  - String CEP_REQUIRED
   - String cep
-  - String CIDADE_NOME_AUSENTE
   - String cidade
   + getNumero() Integer
   + getRua() String
@@ -74,13 +67,8 @@ class ItemPedido {
   + ItemPedido(String, String, BigDecimal, String, Integer) 
   - String id
   - String produtoId
-  - String PRODUCT_ID_FIELD_REQUIRED
   - String name
   - BigDecimal preco
-  - String ID_FIELD_REQUIRED
-  - String NAME_FIELD_REQUIRED
-  - String PRODUCT_PRICE_MUST_BE_GREATER_THAN_ZERO
-  - String QUANTITY_MUST_BE_GREATER_THAN_ZERO
   - Integer quantidade
   + getProdutoId() String
   - validarDados() void
@@ -93,12 +81,9 @@ class ItemPedido {
 class Pedido {
   + Pedido(String, String, List~ItemPedido~) 
   - String clienteId
-  - String ID_INVALIDO
   - BigDecimal total
   - String id
-  - String INVALID_ITEM_LIST
   - List~ItemPedido~ itens
-  - String INVALID_CLIENT_CODE
   + toString() String
   - validarPedido() void
   + calcularCustoTotal() BigDecimal
@@ -108,11 +93,8 @@ class Pedido {
 }
 class Produto {
   + Produto(String, String, BigDecimal) 
-  - String PRODUCT_NAME_REQUIRED
   - String nome
-  - String PRODUCT_PRICE_MUST_BE_GREATER_THAN_ZERO
   - BigDecimal preco
-  - String ID_REQUIRED
   - String id
   + getId() String
   - validarDados() void
@@ -207,13 +189,11 @@ classDiagram
 direction BT
 class PedidoService {
   - PedidoService() 
-  - String CLIENTE_OBRIGATORIO
   + calcularValorTotalDosPedidos(List~Pedido~) BigDecimal
   + fazerEncomenda(Cliente, List~ItemPedido~) Pedido
 }
 class ProdutoService {
   - ProdutoService() 
-  - double PERCENTAGE_BASE
   + aplicarAumentoPercentualAoPrecoDosProdutos(List~Produto~, Double) void
 }
 
@@ -469,15 +449,8 @@ classDiagram
 direction BT
 class ClienteEntityRepository {
   + ClienteEntityRepository() 
-  - String FALHA_AO_ATUALIZAR_O_CLIENTE
-  - String CLIENTE_BUSCA_ID_ERRO
-  - String FALHA_AO_SALVAR_ENTIDADE_CLIENTE
-  - String FALHA_AO_BUSCAR_TODOS_OS_CLIENTES
-  - String CLIENTE_ID_NULO
   - MapperStrategy~ClienteEntity, Cliente~ clienteEntityFromClienteMapper
   - MapperStrategy~Cliente, ClienteEntity~ clienteFromClienteEntityMapper
-  - String CLIENTE_NULO_EXCEPTION_MESSAGE
-  - String FALHA_AO_DELETAR_O_CLIENTE
   + atualizar(Cliente) void
   + buscarPorId(String) Cliente
   + buscarTodos() List~Cliente~
@@ -490,15 +463,8 @@ class ClienteRepository {
 }
 class PedidoEntityRepository {
   + PedidoEntityRepository() 
-  - String ID_NAO_ENCONTRADO
-  - String ERROR_SAVING_PEDIDO_ENTITY
-  - String FALHA_ATUALIZACAO_PEDIDO
-  - String ERROR_DELETAR_PEDIDO
-  - String ERRO_AO_BUSCAR_PEDIDO
   - MapperStrategy~PedidoEntity, Pedido~ pedidoEntityFromPedido
   - MapperStrategy~Pedido, PedidoEntity~ pedidoFromPedidoEntity
-  - String ID_PEDIDO_OBRIGATORIO
-  - String OBJETO_PEDIDO_NULO
   + buscarPorId(String) Pedido
   + guardar(Pedido) void
   + deletar(Pedido) void
@@ -511,15 +477,8 @@ class PedidoRepository {
 }
 class ProdutoEntityRepository {
   + ProdutoEntityRepository() 
-  - String FALHA_AO_SALVAR_ENTIDADE_PRODUTO
-  - String PRODUTO_NAO_ENCONTRADO
-  - String FALHA_AO_ATUALIZAR_ENTIDADE_PRODUTO
-  - String OBJETO_PRODUTO_NECESSARIO
   - MapperStrategy~ProdutoEntity, Produto~ produtoEntityFromProdutoMapper
-  - String FALHA_AO_BUSCAR_TODOS_OS_PRODUTOS
   - MapperStrategy~Produto, ProdutoEntity~ produtoFromProdutoEntityMapper
-  - String FALHA_AO_DELETAR_ENTIDADE_PRODUTO
-  - String PRODUTO_ID_NULO
   + guardar(Produto) void
   + atualizar(Produto) void
   + deletar(Produto) void
@@ -534,7 +493,6 @@ class ProdutoRepository {
 ClienteEntityRepository  ..>  ClienteRepository 
 PedidoEntityRepository  ..>  PedidoRepository 
 ProdutoEntityRepository  ..>  ProdutoRepository 
-
 ```
 
 ---
