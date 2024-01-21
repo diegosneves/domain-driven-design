@@ -1,7 +1,8 @@
 package diegosneves.ddd.github.mapper;
 
-import diegosneves.ddd.github.domain.entity.Produto;
-import diegosneves.ddd.github.infrastructure.db.mysql.model.ProdutoEntity;
+import diegosneves.ddd.github.domain.product.entity.Produto;
+import diegosneves.ddd.github.infrastructure.product.repository.mysql.ProdutoEntity;
+import diegosneves.ddd.github.mapper.shared.MapperStrategy;
 
 public class ProdutoEntityFromProdudoMapper implements MapperStrategy<ProdutoEntity, Produto> {
 

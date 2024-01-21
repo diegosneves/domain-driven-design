@@ -1,5 +1,6 @@
 package diegosneves.ddd.github.domain.entity;
 
+import diegosneves.ddd.github.domain.checkout.entity.ItemPedido;
 import diegosneves.ddd.github.exceptions.ItemException;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;

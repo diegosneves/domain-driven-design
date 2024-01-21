@@ -1,7 +1,8 @@
 package diegosneves.ddd.github.mapper;
 
-import diegosneves.ddd.github.domain.entity.Cliente;
-import diegosneves.ddd.github.infrastructure.db.mysql.model.ClienteEntity;
+import diegosneves.ddd.github.domain.customer.entity.Cliente;
+import diegosneves.ddd.github.infrastructure.customer.repository.mysql.ClienteEntity;
+import diegosneves.ddd.github.mapper.shared.MapperStrategy;
 
 public class ClienteEntityFromClienteMapper implements MapperStrategy<ClienteEntity, Cliente> {
 

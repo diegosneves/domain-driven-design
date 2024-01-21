@@ -1,13 +1,15 @@
 package diegosneves.ddd.github;
 
-import diegosneves.ddd.github.domain.entity.*;
-import diegosneves.ddd.github.domain.event.DistribuidorEventos;
-import diegosneves.ddd.github.domain.event.customer.handler.EnviarEmailAoCriarClienteHandler;
-import diegosneves.ddd.github.domain.event.customer.handler.NotificarAlteracaoEnderecoCliente;
-import diegosneves.ddd.github.domain.event.product.EventoCriarProduto;
-import diegosneves.ddd.github.domain.event.product.handler.EnviarEmailAoCriarProdutoHandler;
-import diegosneves.ddd.github.domain.repository.ClienteRepository;
-import diegosneves.ddd.github.repository.ClienteEntityRepository;
+import diegosneves.ddd.github.domain.customer.aggregate.Endereco;
+import diegosneves.ddd.github.domain.customer.entity.Cliente;
+import diegosneves.ddd.github.domain.shared.event.DistribuidorEventos;
+import diegosneves.ddd.github.domain.customer.event.handler.EnviarEmailAoCriarClienteHandler;
+import diegosneves.ddd.github.domain.customer.event.handler.NotificarAlteracaoEnderecoCliente;
+import diegosneves.ddd.github.domain.product.event.EventoCriarProduto;
+import diegosneves.ddd.github.domain.product.event.handler.EnviarEmailAoCriarProdutoHandler;
+import diegosneves.ddd.github.domain.product.entity.Produto;
+import diegosneves.ddd.github.domain.customer.repository.ClienteRepository;
+import diegosneves.ddd.github.infrastructure.customer.repository.mysql.ClienteEntityRepository;
 
 import java.math.BigDecimal;
 

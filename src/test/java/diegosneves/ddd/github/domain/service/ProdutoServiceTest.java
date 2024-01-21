@@ -1,6 +1,7 @@
 package diegosneves.ddd.github.domain.service;
 
-import diegosneves.ddd.github.domain.entity.Produto;
+import diegosneves.ddd.github.domain.product.entity.Produto;
+import diegosneves.ddd.github.domain.product.service.ProdutoService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;

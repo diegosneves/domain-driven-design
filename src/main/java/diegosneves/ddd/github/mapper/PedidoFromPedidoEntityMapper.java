@@ -1,9 +1,11 @@
 package diegosneves.ddd.github.mapper;
 
-import diegosneves.ddd.github.domain.entity.ItemPedido;
-import diegosneves.ddd.github.domain.entity.Pedido;
-import diegosneves.ddd.github.infrastructure.db.mysql.model.ItemPedidoEntity;
-import diegosneves.ddd.github.infrastructure.db.mysql.model.PedidoEntity;
+import diegosneves.ddd.github.domain.checkout.entity.ItemPedido;
+import diegosneves.ddd.github.domain.checkout.entity.Pedido;
+import diegosneves.ddd.github.infrastructure.order.repository.mysql.ItemPedidoEntity;
+import diegosneves.ddd.github.infrastructure.order.repository.mysql.PedidoEntity;
+import diegosneves.ddd.github.mapper.shared.BuilderMapper;
+import diegosneves.ddd.github.mapper.shared.MapperStrategy;
 
 public class PedidoFromPedidoEntityMapper implements MapperStrategy<Pedido, PedidoEntity> {
 

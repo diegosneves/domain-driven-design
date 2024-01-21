@@ -14,10 +14,10 @@
         <property name="hibernate.hbm2ddl.auto">update</property>
 
         <!-- Auto-detection das classes de entidade -->
-        <mapping class="diegosneves.ddd.github.infrastructure.db.mysql.model.ProdutoEntity" /> <!-- classes que serao anotadas com @Entity -->
-        <mapping class="diegosneves.ddd.github.infrastructure.db.mysql.model.ClienteEntity" /> <!-- classes que serao anotadas com @Entity -->
-        <mapping class="diegosneves.ddd.github.infrastructure.db.mysql.model.PedidoEntity" /> <!-- classes que serao anotadas com @Entity -->
-        <mapping class="diegosneves.ddd.github.infrastructure.db.mysql.model.ItemPedidoEntity" /> <!-- classes que serao anotadas com @Entity -->
+        <mapping class="diegosneves.ddd.github.infrastructure.product.repository.mysql.ProdutoEntity" /> <!-- classes que serao anotadas com @Entity -->
+        <mapping class="diegosneves.ddd.github.infrastructure.customer.repository.mysql.ClienteEntity" /> <!-- classes que serao anotadas com @Entity -->
+        <mapping class="diegosneves.ddd.github.infrastructure.order.repository.mysql.PedidoEntity" /> <!-- classes que serao anotadas com @Entity -->
+        <mapping class="diegosneves.ddd.github.infrastructure.order.repository.mysql.ItemPedidoEntity" /> <!-- classes que serao anotadas com @Entity -->
 
 
     </session-factory>

@@ -1,8 +1,9 @@
 package diegosneves.ddd.github.domain.service;
 
-import diegosneves.ddd.github.domain.entity.Cliente;
-import diegosneves.ddd.github.domain.entity.ItemPedido;
-import diegosneves.ddd.github.domain.entity.Pedido;
+import diegosneves.ddd.github.domain.checkout.service.PedidoService;
+import diegosneves.ddd.github.domain.customer.entity.Cliente;
+import diegosneves.ddd.github.domain.checkout.entity.ItemPedido;
+import diegosneves.ddd.github.domain.checkout.entity.Pedido;
 import diegosneves.ddd.github.exceptions.PedidoException;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;

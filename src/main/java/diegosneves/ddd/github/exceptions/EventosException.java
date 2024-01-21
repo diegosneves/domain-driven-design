@@ -1,5 +1,7 @@
 package diegosneves.ddd.github.exceptions;
 
+import diegosneves.ddd.github.exceptions.handler.ManipuladorDeMensagensDeErros;
+
 public class EventosException extends RuntimeException {
 
     public static final ManipuladorDeMensagensDeErros ERRO = ManipuladorDeMensagensDeErros.EVENTOS_CAST;
