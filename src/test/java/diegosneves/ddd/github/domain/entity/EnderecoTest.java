@@ -1,6 +1,6 @@
 package diegosneves.ddd.github.domain.entity;
 
-import diegosneves.ddd.github.domain.customer.aggregate.Endereco;
+import diegosneves.ddd.github.domain.customer.entity.value.Endereco;
 import diegosneves.ddd.github.exceptions.EnderecoException;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;

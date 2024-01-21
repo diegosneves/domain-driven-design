@@ -1,7 +1,7 @@
 package diegosneves.ddd.github.mapper;
 
 import diegosneves.ddd.github.domain.customer.entity.Cliente;
-import diegosneves.ddd.github.domain.customer.aggregate.Endereco;
+import diegosneves.ddd.github.domain.customer.entity.value.Endereco;
 import diegosneves.ddd.github.infrastructure.customer.repository.mysql.ClienteEntity;
 import diegosneves.ddd.github.mapper.shared.MapperStrategy;
 

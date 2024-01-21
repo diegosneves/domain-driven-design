@@ -6,7 +6,7 @@ import java.math.BigDecimal;
 
 import static java.util.Objects.isNull;
 
-public class Produto {
+public class Produto implements ProdutoInterface {
 
     private static final String ID_REQUIRED = "O ID do produto é obrigatório";
     private static final String PRODUCT_NAME_REQUIRED = "Nome do produto é um campo obrigatório e deve ser preenchido";
@@ -48,14 +48,17 @@ public class Produto {
         this.preco = novoPreco;
     }
 
+    @Override
     public BigDecimal getPreco() {
         return this.preco;
     }
 
+    @Override
     public String getId() {
         return id;
     }
 
+    @Override
     public String getNome() {
         return nome;
     }

@@ -1,13 +1,13 @@
 package diegosneves.ddd.github.domain.customer.entity;
 
-import diegosneves.ddd.github.domain.customer.aggregate.Endereco;
+import diegosneves.ddd.github.domain.customer.entity.value.Endereco;
 import diegosneves.ddd.github.domain.shared.event.DistribuidorEventos;
 import diegosneves.ddd.github.domain.customer.event.EventoEnderecoAlterado;
 import diegosneves.ddd.github.exceptions.ClienteException;
 
 import static java.util.Objects.isNull;
 
-public class Cliente {
+public class Cliente implements ClienteInterface {
 
     private static final String INFORMAR_UM_NOME = "Para o registro correto, um nome válido é necessário";
     private static final String INFORMAR_UM_ID = "Um ID válido precisa ser fornecido";
@@ -45,22 +45,27 @@ public class Cliente {
         this.ativo = Boolean.TRUE;
     }
 
+    @Override
     public String getId() {
         return this.id;
     }
 
+    @Override
     public String getNome() {
         return nome;
     }
 
+    @Override
     public Endereco getEndereco() {
         return endereco;
     }
 
+    @Override
     public Boolean getAtivo() {
         return ativo;
     }
 
+    @Override
     public Integer getPontosDeRecompensa() {
         return this.pontosDeRecompensa;
     }

@@ -1,4 +1,4 @@
-package diegosneves.ddd.github.domain.customer.aggregate;
+package diegosneves.ddd.github.domain.customer.entity.value;
 
 import diegosneves.ddd.github.exceptions.EnderecoException;
 

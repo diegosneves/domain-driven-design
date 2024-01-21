@@ -7,7 +7,7 @@ import java.util.List;
 
 import static java.util.Objects.isNull;
 
-public class Pedido {
+public class Pedido implements PedidoInterface {
 
     private static final String ID_INVALIDO = "O ID informado não deve ser nulo nem vazio.";
     private static final String INVALID_CLIENT_CODE = "O código de identificação do cliente não deve ser nulo ou deixado em branco";
@@ -43,14 +43,17 @@ public class Pedido {
         return this.total;
     }
 
+    @Override
     public String getId() {
         return id;
     }
 
+    @Override
     public String getClienteId() {
         return clienteId;
     }
 
+    @Override
     public List<ItemPedido> getItens() {
         return itens;
     }
